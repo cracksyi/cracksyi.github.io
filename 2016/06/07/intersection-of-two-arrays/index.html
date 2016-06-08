@@ -241,24 +241,30 @@
 <p>Example:<br>Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
 <p>Note:<br>Each element in the result must be unique.<br>The result can be in any order.</p>
 </blockquote>
-<h2 id="My-Code"><a href="#My-Code" class="headerlink" title="My Code"></a>My Code</h2><p>‘’’<br>class Solution(object):<br>    def intersection(self, nums1, nums2):<br>        rNums = []</p>
-<pre><code>nums1 = list(set(nums1))
-nums2 = list(set(nums2))
-nums1.sort()
-nums2.sort()
+<h3 id="My-Code"><a href="#My-Code" class="headerlink" title="My Code"></a>My Code</h3><pre><code>
+class Solution(object):
+    def intersection(self, nums1, nums2):
 
-ind = 0
-for num1 in nums1:
+        rNums = []        
+        nums1 = list(set(nums1))
+        nums2 = list(set(nums2))
+        nums1.sort()
+        nums2.sort()
 
-    for i in range(ind,len(nums2)):
-        if num1 == nums2[i]:
-            ind = i + 1
-            rNums.append(num1)
-            break
-    continue
+        ind = 0
+        for num1 in nums1:
 
-return rNums
-</code></pre><p>‘’’</p>
+            for i in range(ind,len(nums2)):
+                if num1 == nums2[i]:
+                    ind = i + 1
+                    rNums.append(num1)
+                    break
+            continue
+
+        return rNums
+</code></pre>
+
+
 <p>There is a similar problem (Intersection of Two Arrays II) after this one.</p>
 <h2 id="Problem-Description-1"><a href="#Problem-Description-1" class="headerlink" title="Problem Description"></a>Problem Description</h2><blockquote>
 <p>Given two arrays, write a function to compute their intersection.</p>

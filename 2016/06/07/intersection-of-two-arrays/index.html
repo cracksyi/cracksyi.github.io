@@ -271,24 +271,29 @@ class Solution(object):
 <p>Example:<br>Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2, 2].</p>
 <p>Note:<br>Each element in the result should appear as many times as it shows in both arrays.<br>The result can be in any order.</p>
 </blockquote>
-<h2 id="My-Code-1"><a href="#My-Code-1" class="headerlink" title="My Code"></a>My Code</h2><p>‘’’<br>class Solution(object):<br>    def intersect(self, nums1, nums2):</p>
-<pre><code>rNums = []
-nums1.sort()
-nums2.sort()
+<h2 id="My-Code-1"><a href="#My-Code-1" class="headerlink" title="My Code"></a>My Code</h2><pre><code>
+class Solution(object):
+    def intersect(self, nums1, nums2):
 
-num1_index = 0
-num2_index = 0
+        rNums = []
+        nums1.sort()
+        nums2.sort()
 
-for i in range(num1_index,len(nums1)):
-    for j in range(num2_index,len(nums2)):
-        if nums1[i] == nums2[j]:
-            num1_index = i + 1
-            num2_index = j + 1
-            rNums.append(nums1[i])
-            break
+        num1_index = 0
+        num2_index = 0
 
-return rNums
-</code></pre><p>‘’’</p>
+        for i in range(num1_index,len(nums1)):
+            for j in range(num2_index,len(nums2)):
+                if nums1[i] == nums2[j]:
+                    num1_index = i + 1
+                    num2_index = j + 1
+                    rNums.append(nums1[i])
+                    break
+
+        return rNums
+</code></pre>
+
+
 <p>My solutions to these problems are brute force and almost the same, except for the use of set(). The runtime of my code beat 4 ~ 11% code for python. I think there must be some totally different methods.</p>
 
             <div class="clearfix"></div>

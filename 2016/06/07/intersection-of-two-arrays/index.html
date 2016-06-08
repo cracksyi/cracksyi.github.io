@@ -236,12 +236,37 @@
         </div>
         <div class="col-md-8 col-md-offset-2">
       		<p>I start my blog with the help of Song. Thank you sweetheart. Now I am a summer intern but there is no work for me, so I solve problems in leetcode and share my code in my blog. Note the language is python and I am a newbie. If you happen to see my blog and have some good ideas, feel free to comment or contact me.</p>
-<p>##problem description</p>
-<blockquote>
+<ul>
+<li>problem description<blockquote>
 <p>Given two arrays, write a function to compute their intersection.</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
 <p>Example:<br>Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
 <p>Note:<br>Each element in the result must be unique.<br>The result can be in any order.</p>
 </blockquote>
+<ul>
+<li><p>my code<br>‘’’<br>class Solution(object):<br>  def intersection(self, nums1, nums2):</p>
+<pre><code>rNums = []
+
+nums1 = list(set(nums1))
+nums2 = list(set(nums2))
+nums1.sort()
+nums2.sort()
+</code></pre></li>
+</ul>
+<pre><code>ind = 0
+for num1 in nums1:
+    for i in range(ind,len(nums2)):
+        if num1 == nums2[i]:
+            ind = i + 1
+            rNums.append(num1)
+            break
+    continue
+
+return rNums
+</code></pre><p>‘’’</p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">

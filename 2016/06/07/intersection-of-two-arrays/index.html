@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>test | Hexo</title>
+  <title>Intersection of Two Arrays | Hexo</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -226,16 +226,65 @@
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2016-06-08T05:58:51.000Z" itemprop="datePublished">
+      <time datetime="2016-06-08T05:44:40.000Z" itemprop="datePublished">
           2016-06-07
       </time>
     
 </span>
-                <h1>test</h1>
+                <h1>Intersection of Two Arrays</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		
+      		<p>I start my blog with the help of Song. Thank you sweetheart. Now I am a summer intern but there is no work for me, so I solve problems in leetcode and share my code in my blog. Note the language is python and I am a newbie. If you happen to see my blog and have some good ideas, feel free to comment or contact me.</p>
+<h2 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h2><blockquote>
+<p>Given two arrays, write a function to compute their intersection.</p>
+<p>Example:<br>Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2].</p>
+<p>Note:<br>Each element in the result must be unique.<br>The result can be in any order.</p>
+</blockquote>
+<h2 id="My-Code"><a href="#My-Code" class="headerlink" title="My Code"></a>My Code</h2><p>‘’’<br>class Solution(object):<br>    def intersection(self, nums1, nums2):<br>        rNums = []</p>
+<pre><code>nums1 = list(set(nums1))
+nums2 = list(set(nums2))
+nums1.sort()
+nums2.sort()
+
+ind = 0
+for num1 in nums1:
+
+    for i in range(ind,len(nums2)):
+        if num1 == nums2[i]:
+            ind = i + 1
+            rNums.append(num1)
+            break
+    continue
+
+return rNums
+</code></pre><p>‘’’</p>
+<p>There is a similar problem (Intersection of Two Arrays II) after this one.</p>
+<h2 id="Problem-Description-1"><a href="#Problem-Description-1" class="headerlink" title="Problem Description"></a>Problem Description</h2><blockquote>
+<p>Given two arrays, write a function to compute their intersection.</p>
+<p>Example:<br>Given nums1 = [1, 2, 2, 1], nums2 = [2, 2], return [2, 2].</p>
+<p>Note:<br>Each element in the result should appear as many times as it shows in both arrays.<br>The result can be in any order.</p>
+</blockquote>
+<h2 id="My-Code-1"><a href="#My-Code-1" class="headerlink" title="My Code"></a>My Code</h2><p>‘’’<br>class Solution(object):<br>    def intersect(self, nums1, nums2):</p>
+<pre><code>rNums = []
+nums1.sort()
+nums2.sort()
+
+num1_index = 0
+num2_index = 0
+
+for i in range(num1_index,len(nums1)):
+    for j in range(num2_index,len(nums2)):
+        if nums1[i] == nums2[j]:
+            num1_index = i + 1
+            num2_index = j + 1
+            rNums.append(nums1[i])
+            break
+
+return rNums
+</code></pre><p>‘’’</p>
+<p>My solutions to these problems are brute force and almost the same, except for the use of set(). The runtime of my code beat 4 ~ 11% code for python. I think there must be some totally different methods.</p>
+
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
@@ -245,7 +294,7 @@
 </nav>
 
         <div class="duoshuo">
-<div class="ds-thread" data-thread-key="2016/06/07/test/" data-title="test" data-url="http://yoursite.com/2016/06/07/test/"></div>
+<div class="ds-thread" data-thread-key="2016/06/07/intersection-of-two-arrays/" data-title="Intersection of Two Arrays" data-url="http://yoursite.com/2016/06/07/intersection-of-two-arrays/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"duoshuo_name"};
 (function() {

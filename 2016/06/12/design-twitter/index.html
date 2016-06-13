@@ -237,6 +237,117 @@
 <p>// User 1 unfollows user 2.<br>twitter.unfollow(1, 2);</p>
 <p>// User 1’s news feed should return a list with 1 tweet id -&gt; [5],<br>// since user 1 is no longer following user 2.<br>twitter.getNewsFeed(1);</p>
 </blockquote>
+<p>My Code</p>
+<pre>
+<code>
+
+class Twitter(object):
+
+
+    def initUser(self,userId):
+        self.userIdList.append(userId)
+        self.followIdDict[userId] = [userId]
+
+
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.userIdList = []    #all userId
+        self.followIdDict = {}  #userId:all followee id
+        self.tweetsQueue = []   #[userId,tweets id]
+
+
+
+    def postTweet(self, userId, tweetId):
+        """
+        Compose a new tweet.
+        :type userId: int
+        :type tweetId: int
+        :rtype: void
+        """
+        if userId not in self.userIdList:
+            self.initUser(userId)
+
+        self.tweetsQueue.append([userId,tweetId])
+
+
+
+
+    def getNewsFeed(self, userId):
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        :type userId: int
+        :rtype: List[int]
+        """
+        if userId not in self.userIdList:
+            return []
+
+        tempTweets = []
+        len_t_q = len(self.tweetsQueue)+1
+        count = 0
+
+        for i in range(1,len_t_q):
+            if count >= 10:
+                break
+            tweet = self.tweetsQueue[-1*i]
+
+            if tweet[0] in self.followIdDict[userId]:
+                tempTweets.append(tweet[1])
+                count += 1
+
+        return tempTweets 
+
+
+
+
+
+    def follow(self, followerId, followeeId):
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        :type followerId: int
+        :type followeeId: int
+        :rtype: void
+        """
+        if followerId not in self.userIdList:
+            self.initUser(followerId)
+        if followeeId not in self.userIdList:
+            self.initUser(followeeId)
+
+        if followeeId not in self.followIdDict[followerId]:    
+            self.followIdDict[followerId].append(followeeId)
+
+
+
+    def unfollow(self, followerId, followeeId):
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        :type followerId: int
+        :type followeeId: int
+        :rtype: void
+        """
+        if (followerId in self.userIdList) and (followeeId in self.userIdList) and (followeeId in self.followIdDict[followerId]) and followeeId != followerId:
+            self.followIdDict[followerId].remove(followeeId)
+
+
+
+
+
+# Your Twitter object will be instantiated and called as such:
+# obj = Twitter()
+# obj.postTweet(userId,tweetId)
+# param_2 = obj.getNewsFeed(userId)
+# obj.follow(followerId,followeeId)
+# obj.unfollow(followerId,followeeId)
+
+</code>
+</pre>
+
+
+
+<p>Code is simple, but I it took me a lot of time to fix bugs.<br>First, I did not design the system well at the beginning. I designed a dictionary variable tweetDict, in which the element is userId(key):tweetList(value), to keep tweets for each user. But then I found that it is difficult to remove or add tweets when the user follow or unfollow someone. Then I thought about switch this variable to a new form: to let the value be a list [followeeId, tweetList] so that I can record the owner of the tweet. And I should keep track of both one’s followers and followees. At this time, I felt I have fallen into the abyss. Each time the user follows or unfollows someone, all variables should change. What’s worse, the change means traverse the whole list. So I think of another way to solve it: record all tweets in one list and only when it calls getNewsFeed() the list needs to be visited. Note that list is a natural way to record which tweet is an ealier one.<br>Still, I met with some other problems, due to my poor knowleadge for python class. I define and initialize all class variables outside the constructor, without recognition of them being static variables for python. That’s also why I get different answers when I “run code” and “submit” in leetcode.<br>There are also some other trival details. For example, the users follow themselves and could not unfollow themselves:)</p>
+<p>Like what Song said, I should design before write it!</p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">

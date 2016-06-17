@@ -31,7 +31,7 @@ var _hmt = _hmt || [];
 
 
 <head>
-  <title>Bilateral Filter for Smoothing Images | Yi Hu&#39;s blog</title>
+  <title>Bilateral filter for Smoothing Images | Yi Hu&#39;s blog</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -234,20 +234,25 @@ var _hmt = _hmt || [];
       </time>
     
 </span>
-                <h1>Bilateral Filter for Smoothing Images</h1>
+                <h1>Bilateral filter for Smoothing Images</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
       		<p><img src="/pics/smooth.png" alt=""></p>
-<p>This is my experiment result of smoothing images using bilateral filter.<br>I copied some code in <a href="http://blog.csdn.net/jia20003/article/details/7740683" target="_blank" rel="external">http://blog.csdn.net/jia20003/article/details/7740683</a> to implement it. And I modified it to adjust to Android platform. One of the big bug is wrong correspondence which cost me the whole afternoon to figure out. The detail is that the height of the picture actually refers to the column, not the row. I don’t know why intuitively, but the result tells me that.</p>
+<p>This is my experiment result of smoothing images using bilateral filter.<br>I copied some code in <a href="http://blog.csdn.net/jia20003/article/details/7740683" target="_blank" rel="external">http://blog.csdn.net/jia20003/article/details/7740683</a> to implement it. And I modified it to adjust to Android platform. One of the big bug is wrong correspondence which costs me the whole afternoon to figure out. The height of the picture actually refers to the column, not the row. I don’t know why intuitively, but the result tells me that.</p>
 <p>A big problem is low efficiency of the program because it handles pixel one by one. For example, if the size of an image is 500<em>500 and the radius is 5(the radius of the program is set to 5 as the image shows). So each pixel will be relative to (5</em>2+1)^2 - 1 = 120 nearby pixels. And each step needs k times calculation.So the time will be 500<em>500</em>120*k. It’s hundreds of millions times calculation. No wonder I should wait half a second. I will optimize it.</p>
 <p>Btw, I also implement whitening function. It’s very easy. Just increase RGB by eaqual proportion. When I use factor 1.5, the result is:</p>
 <p><img src="/pics/white.png" alt=""></p>
+<p>Also, I tried some other methods to change the style of images. Essentially it uses some rules to map original RGB values to new one. For example, if you want to change saturation of picture, you can first map RGB to HSV color space, change the value of S, and then map it back to RGB color space.</p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
+    
+    <a class="pull-left" href="/2016/06/15/face-eyes-detection/" style="float: left;">
+        ← Face(eyes) Detection
+    </a>
     
     
     <a class="pull-right" href="/2016/06/12/design-twitter/">
@@ -257,7 +262,7 @@ var _hmt = _hmt || [];
 </nav>
 
         <div class="duoshuo">
-<div class="ds-thread" data-thread-key="2016/06/14/Bilateral-Filter-for-Smoothing-Images/" data-title="Bilateral Filter for Smoothing Images" data-url="http://yoursite.com/2016/06/14/Bilateral-Filter-for-Smoothing-Images/"></div>
+<div class="ds-thread" data-thread-key="2016/06/14/Bilateral-Filter-for-Smoothing-Images/" data-title="Bilateral filter for Smoothing Images" data-url="http://yoursite.com/2016/06/14/Bilateral-Filter-for-Smoothing-Images/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"yihu1993"};
 (function() {

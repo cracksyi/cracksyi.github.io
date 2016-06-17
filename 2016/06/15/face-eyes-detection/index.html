@@ -31,7 +31,7 @@ var _hmt = _hmt || [];
 
 
 <head>
-  <title>design twitter | Yi Hu&#39;s blog</title>
+  <title>Face(eyes) Detection | Yi Hu&#39;s blog</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -229,164 +229,86 @@ var _hmt = _hmt || [];
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2016-06-13T02:21:07.000Z" itemprop="datePublished">
-          2016-06-12
+      <time datetime="2016-06-16T03:52:45.000Z" itemprop="datePublished">
+          2016-06-15
       </time>
     
 </span>
-                <h1>design twitter</h1>
+                <h1>Face(eyes) Detection</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		<p>Problem Description</p>
-<blockquote>
-<p>Design a simplified version of Twitter where users can post tweets, follow/unfollow another user and is able to see the 10 most recent tweets in the user’s news feed. Your design should support the following methods:<br>    1.postTweet(userId, tweetId): Compose a new tweet.<br>    2.getNewsFeed(userId): Retrieve the 10 most recent tweet ids in the user’s news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.<br>    3.follow(followerId, followeeId): Follower follows a followee.<br>    4.unfollow(followerId, followeeId): Follower unfollows a followee.</p>
-<p><b>Example</b>:</p>
-<p>Twitter twitter = new Twitter();</p>
-<p>// User 1 posts a new tweet (id = 5).<br>twitter.postTweet(1, 5);</p>
-<p>// User 1’s news feed should return a list with 1 tweet id -&gt; [5].<br>twitter.getNewsFeed(1);</p>
-<p>// User 1 follows user 2.<br>twitter.follow(1, 2);</p>
-<p>// User 2 posts a new tweet (id = 6).<br>twitter.postTweet(2, 6);</p>
-<p>// User 1’s news feed should return a list with 2 tweet ids -&gt; [6, 5].<br>// Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.<br>twitter.getNewsFeed(1);</p>
-<p>// User 1 unfollows user 2.<br>twitter.unfollow(1, 2);</p>
-<p>// User 1’s news feed should return a list with 1 tweet id -&gt; [5],<br>// since user 1 is no longer following user 2.<br>twitter.getNewsFeed(1);</p>
-</blockquote>
-<p>My Code</p>
-<pre>
-<code>
+      		<p>I use Android face detection API. It works okay but in some case it cannot detect faces while it is too easy for human to recognize. </p>
+<p>Code<br><code><pre><br>public class FaceD{<br>    private static final int MAX_FACES = 3;<br>    private Bitmap bitmap;<br>    private FaceDetector faceDet;<br>    private FaceDetector.Face[] faceList;</pre></code></p>
+<pre><code>public FaceD(Bitmap bmp){
+    this.bitmap = bmp.copy(Bitmap.Config.RGB_565, true);
+    int width = this.bitmap.getWidth();
+    int height = this.bitmap.getHeight();
+    if(width%2 != 0){
+        this.bitmap = Tools.ImageCrop(this.bitmap, 0, width - 1, 0, height);
+    }
+    this.faceDet = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), MAX_FACES);
+    this.faceList = new FaceDetector.Face[MAX_FACES];
 
-class Twitter(object):
+}
 
+public void faceBitmap(){
 
-    def initUser(self,userId):
-        self.userIdList.append(userId)
-        self.followIdDict[userId] = [userId]
+    this.faceDet.findFaces(this.bitmap, this.faceList);
 
+    for (int i=0; i &lt; faceList.length; i++) {
+        FaceDetector.Face face = faceList[i];
 
+        if (face != null) {
+            PointF pf = new PointF();
+            face.getMidPoint(pf);               
+            RectF r = new RectF();
+            r.left = pf.x - face.eyesDistance() / 2;
+            r.right = pf.x + face.eyesDistance() / 2;
+            r.top = pf.y - face.eyesDistance() / 2;
+            r.bottom = pf.y + face.eyesDistance() / 2;
+            drawRectangles(r.left,r.right,r.top,r.bottom);
 
-    def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.userIdList = []    #all userId
-        self.followIdDict = {}  #userId:all followee id
-        self.tweetsQueue = []   #[userId,tweets id]
+        }
+    }
+}
 
+public Bitmap getBitmap(){
 
-
-    def postTweet(self, userId, tweetId):
-        """
-        Compose a new tweet.
-        :type userId: int
-        :type tweetId: int
-        :rtype: void
-        """
-        if userId not in self.userIdList:
-            self.initUser(userId)
-
-        self.tweetsQueue.append([userId,tweetId])
+    return this.bitmap;
+}
 
 
 
+private void drawRectangles(float left,float right,float top,float bottom) {
 
-    def getNewsFeed(self, userId):
-        """
-        Retrieve the 10 most recent tweet ids in the user's news feed. 
-        Each item in the news feed must be posted by users who the user followed or by the user herself. 
-        Tweets must be ordered from most recent to least recent.
-        :type userId: int
-        :rtype: List[int]
-        """
-        if userId not in self.userIdList:
-            return []
+        this.bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
 
-        tempTweets = []
-        len_t_q = len(self.tweetsQueue)+1
-        count = 0
-
-        for i in range(1,len_t_q):
-            if count >= 10:
-                break
-            tweet = self.tweetsQueue[-1*i]
-
-            if tweet[0] in self.followIdDict[userId]:
-                tempTweets.append(tweet[1])
-                count += 1
-
-        return tempTweets 
-
-
-
-
-
-    def follow(self, followerId, followeeId):
-        """
-        Follower follows a followee. If the operation is invalid, it should be a no-op.
-        :type followerId: int
-        :type followeeId: int
-        :rtype: void
-        """
-        if followerId not in self.userIdList:
-            self.initUser(followerId)
-        if followeeId not in self.userIdList:
-            self.initUser(followeeId)
-
-        if followeeId not in self.followIdDict[followerId]:    
-            self.followIdDict[followerId].append(followeeId)
-
-
-
-    def unfollow(self, followerId, followeeId):
-        """
-        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
-        :type followerId: int
-        :type followeeId: int
-        :rtype: void
-        """
-        if (followerId in self.userIdList) and (followeeId in self.userIdList) and 
-               (followeeId in self.followIdDict[followerId]) and (followeeId != followerId):
-            self.followIdDict[followerId].remove(followeeId)
-
-
-
-
-
-# Your Twitter object will be instantiated and called as such:
-# obj = Twitter()
-# obj.postTweet(userId,tweetId)
-# param_2 = obj.getNewsFeed(userId)
-# obj.follow(followerId,followeeId)
-# obj.unfollow(followerId,followeeId)
-
-</code>
-</pre>
-
-
-
-<p>Code is simple, but I it took me a lot of time to fix bugs.</p>
-<p>First, I did not design the system well at the beginning. I designed a dictionary variable tweetDict, in which the element is userId(key):tweetList(value), to keep tweets for each user. But then I found that it is difficult to remove or add tweets when the user follow or unfollow someone. Then I thought about switching this variable to a new form: to let the value be a list [followeeId, tweetList] so that I can record the owner of the tweet. And I should keep track of both one’s followers and followees. At this time, I felt I have fallen into the abyss. Each time the user follows or unfollows someone, all variables should change. What’s worse, the change means traversing the whole list. So I think of another way to solve it: record all tweets in one list and only when it calls getNewsFeed() the list needs to be visited. Note that list is a natural way to record which tweet is an earlier one.</p>
-<p>Still, I met with some other problems, due to my poor knowleadge for python class. I define and initialize all class variables outside the constructor, without recognition of them being static variables for python. That’s also why I get different answers when I “run code” and “submit” in leetcode.</p>
-<p>There are also some other trival details. For example, the users follow themselves and could not unfollow themselves:)</p>
-<p>Like what Song said, I should design before write it!</p>
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);  
+        canvas.drawRect(left, top, right, bottom, paint);            
+}
+</code></pre><p>}<br></p>
+<p>It’s strange that the width of image must be even, or there will be error. So I check whether the width is even and if not, I will crop the image by subtract 1 for width.</p>
+<p>My experiment results:<br>![][/pics/pic1]<br>![][/pics/pic2]<br>![][/pics/pic3]<br>![][/pics/pic4]<br>![][/pics/pic_not1]<br>![][/pics/pic_not2] </p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
     
-    <a class="pull-left" href="/2016/06/14/Bilateral-Filter-for-Smoothing-Images/" style="float: left;">
-        ← Bilateral filter for Smoothing Images
-    </a>
     
-    
-    <a class="pull-right" href="/2016/06/07/intersection-of-two-arrays/">
-        Intersection of Two Arrays →
+    <a class="pull-right" href="/2016/06/14/Bilateral-Filter-for-Smoothing-Images/">
+        Bilateral filter for Smoothing Images →
     </a>
     
 </nav>
 
         <div class="duoshuo">
-<div class="ds-thread" data-thread-key="2016/06/12/design-twitter/" data-title="design twitter" data-url="http://yoursite.com/2016/06/12/design-twitter/"></div>
+<div class="ds-thread" data-thread-key="2016/06/15/face-eyes-detection/" data-title="Face(eyes) Detection" data-url="http://yoursite.com/2016/06/15/face-eyes-detection/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"yihu1993"};
 (function() {

@@ -239,9 +239,8 @@ var _hmt = _hmt || [];
         </div>
         <div class="col-md-8 col-md-offset-2">
       		<p>I use Android face detection API. It works okay but in some case it cannot detect faces while it is too easy for human to recognize. </p>
-<p>Code<br><code><pre><br>public class FaceD{<br>    private static final int MAX_FACES = 3;<br>    private Bitmap bitmap;<br>    private FaceDetector faceDet;<br>    private FaceDetector.Face[] faceList;<br>    public FaceD(Bitmap bmp){<br>        this.bitmap = bmp.copy(Bitmap.Config.RGB_565, true);<br>        int width = this.bitmap.getWidth();<br>        int height = this.bitmap.getHeight();<br>        if(width%2 != 0){<br>            this.bitmap = Tools.ImageCrop(this.bitmap, 0, width - 1, 0, height);<br>        }<br>        this.faceDet = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), MAX_FACES);<br>        this.faceList = new FaceDetector.Face[MAX_FACES];</pre></code></p>
+<p>Code<br><code><pre><br>public class FaceD{<br>        private static final int MAX_FACES = 3;<br>    private Bitmap bitmap;<br>    private FaceDetector faceDet;<br>    private FaceDetector.Face[] faceList;<br>    public FaceD(Bitmap bmp){<br>        this.bitmap = bmp.copy(Bitmap.Config.RGB_565, true);<br>        int width = this.bitmap.getWidth();<br>        int height = this.bitmap.getHeight();<br>        if(width%2 != 0){<br>            this.bitmap = Tools.ImageCrop(this.bitmap, 0, width - 1, 0, height);<br>        }<br>        this.faceDet = new FaceDetector(bitmap.getWidth(), bitmap.getHeight(), MAX_FACES);<br>        this.faceList = new FaceDetector.Face[MAX_FACES];</pre></code></p>
 <pre><code>}
-
 public void faceBitmap(){
 
     this.faceDet.findFaces(this.bitmap, this.faceList);
@@ -277,10 +276,8 @@ private void drawRectangles(float left,float right,float top,float bottom) {
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);  
-        canvas.drawRect(left, top, right, bottom, paint);            
-}    
-</code></pre><p>}</p>
-<p></p>
+        canvas.drawRect(left, top, right, bottom, paint);    }}
+</code></pre><p></p>
 <p>It’s strange that the width of image must be even, or there will be error. So I check whether the width is even and if not, I will crop the image by subtract 1 for width.</p>
 <p>My experiment results:<br><img src="/pics/pic1.png" alt=""><br><img src="/pics/pic2.png" alt=""><br><img src="/pics/pic3.png" alt=""><br><img src="/pics/pic4.png" alt=""><br><img src="/pics/pic_not1.png" alt=""><br><img src="/pics/pic_not2].png" alt=""></p>
 
@@ -288,6 +285,10 @@ private void drawRectangles(float left,float right,float top,float bottom) {
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
+    
+    <a class="pull-left" href="/2016/06/20/matlab-gui/" style="float: left;">
+        ← matlab gui
+    </a>
     
     
     <a class="pull-right" href="/2016/06/14/Bilateral-Filter-for-Smoothing-Images/">

@@ -239,11 +239,11 @@ var _hmt = _hmt || [];
         </div>
         <div class="col-md-8 col-md-offset-2">
       		<p>Now I have work to do so I don’t have much time to update my blog. I helped to build matlab gui to do modeling automatically and in batch. I have to say that Matlab is easy to use, especially for GUI. It has “guide” and you can create widget by dragging it. All the code work is essentially “set” and “get” attributes of widgets in corresponding callback functions, as you like. </p>
-<p>One example is:<br><img src="&#39;/pics/matlab_gui.png&#39;" alt=""></p>
+<p>One example is:<br><img src="/pics/matlab_gui.png" alt=""></p>
 <p>To select and read one file:</p>
 <p><pre><code><br>[filename,filepath]=uigetfile(‘*.xlsx’,’open file’);<br>filep = strcat(filepath,filename);<br>[Data,DataText,DataCell]=xlsread(filep);<br></code></pre></p>
 <p>Sometimes we don’t want to select file one by one manually. We can select one file folder and let Matlab read all files automatically, by using uigetdir.<br>My code to read all ‘.xlsx’ files in one selected file folder is:</p>
-<p><pred><code><br>folder_name = uigetdir;<br>names = dir([folder_name,’*.xlsx’]);<br>for i = 1:length(names)<br>   [Data,DataText,DataCell]=xlsread([folder_name,’\’,names(i).name]);<br>end<br></code><br>Varaible “names” is cell array type. Each cell is a struct, so use “names(i).name” to get filename.  </pred></p>
+<p><pre><code><br>folder_name = uigetdir;<br>names = dir([folder_name,’*.xlsx’]);<br>for i = 1:length(names)<br>   [Data,DataText,DataCell]=xlsread([folder_name,’\’,names(i).name]);<br>end<br></code></pre><br>Varaible “names” is cell array type. Each cell is a struct, so use “names(i).name” to get filename.  </p>
 <p>In this project, I made some mistakes and found some interesting properties in Matlab, and also there left some problems unsolved.</p>
 <p>1.When I create popupmenu in GUIDE, I thought value should correspond to string so I set value to 1 to i. Actually, value will be generated to i automatically, related to ith string. So just set string and leave value default, or popupmenu will not show in figure.</p>
 <p>2.Global variables should be declared in all functions/files when you want to use it there. All files in that workspace can visit this variable.</p>

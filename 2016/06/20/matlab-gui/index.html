@@ -244,20 +244,23 @@ var _hmt = _hmt || [];
 <p><pre><code><br>[filename,filepath]=uigetfile(‘*.xlsx’,’open file’);<br>filep = strcat(filepath,filename);<br>[Data,DataText,DataCell]=xlsread(filep);<br></code></pre></p>
 <p>Sometimes we don’t want to select file one by one manually. We can select one file folder and let Matlab read all files automatically, by using uigetdir.<br>My code to read all ‘.xlsx’ files in one selected file folder is:</p>
 <p><pre><code><br>folder_name = uigetdir;<br>names = dir([folder_name,’*.xlsx’]);<br>for i = 1:length(names)<br>   [Data,DataText,DataCell]=xlsread([folder_name,’\’,names(i).name]);<br>end<br></code></pre><br>Varaible “names” is cell array type. Each cell is a struct, so use “names(i).name” to get filename.  </p>
+<p>And I’ve learned how to </p>
 <p>In this project, I made some mistakes and found some interesting properties in Matlab, and also there left some problems unsolved.</p>
 <p>1.When I create popupmenu in GUIDE, I thought value should correspond to string so I set value to 1 to i. Actually, value will be generated to i automatically, related to ith string. So just set string and leave value default, or popupmenu will not show in figure.</p>
 <p>2.Global variables should be declared in all functions/files when you want to use it there. All files in that workspace can visit this variable.</p>
 <p>3.</p>
 <p><pre><code><br>h = gcf;<br>figure2<br>close(h);<br></code></pre><br>This code can jump from current figure to figure2. But the location of the figure will change, which appears flash. I do not find better solution for this.</p>
-<ol>
-<li><p>4.Data is a matrix that contains all numbers, while DataCell is a cell array,whose cell is data in corresponding excel cell. I made a mistake here. I mistook cell array for cell and tried to transform a matrix to cell array using mat2cell, but what I get is actually one cell. Instead, I should use num2cell.</p>
-</li>
-</ol>
+<p>4.Data is a matrix that contains all numbers, while DataCell is a cell array,whose cell is data in corresponding excel cell. I made a mistake here. I mistook cell array for cell and tried to transform a matrix to cell array using mat2cell, but what I get is actually one cell. Instead, I should use num2cell.</p>
+<p>5.</p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
         <nav class="pagination" role="pagination">
+    
+    <a class="pull-left" href="/2016/07/01/Valid-Perfect-Square/" style="float: left;">
+        ← Valid Perfect Square
+    </a>
     
     
     <a class="pull-right" href="/2016/06/15/face-eyes-detection/">

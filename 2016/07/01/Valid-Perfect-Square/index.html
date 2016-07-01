@@ -31,7 +31,7 @@ var _hmt = _hmt || [];
 
 
 <head>
-  <title>Archives: 2016 | Yi Hu&#39;s blog</title>
+  <title>Valid Perfect Square | Yi Hu&#39;s blog</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
 </head>
 
 <!--
-<body class="home-template">
+<body class="post-template">
 -->
 <body id="index" class="lightnav animsition">
 
@@ -224,85 +224,85 @@ var _hmt = _hmt || [];
 
         <!-- ============================ END Hero Image =========================== -->
       
-
-
-<section id="services">
+<section id="intro">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row boxes">
-                    
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/07/01/Valid-Perfect-Square/">Valid Perfect Square</a></h4>
-                            
-                            <p><time datetime="2016-07-01T07:58:07.000Z"><a href="/2016/07/01/Valid-Perfect-Square/">2016-07-01</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/06/20/matlab-gui/">matlab gui</a></h4>
-                            
-                            <p><time datetime="2016-06-21T05:24:26.000Z"><a href="/2016/06/20/matlab-gui/">2016-06-20</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/06/15/face-eyes-detection/">Face(eyes) Detection</a></h4>
-                            
-                            <p><time datetime="2016-06-16T03:52:45.000Z"><a href="/2016/06/15/face-eyes-detection/">2016-06-15</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/06/14/Bilateral-Filter-for-Smoothing-Images/">Bilateral filter for Smoothing Images</a></h4>
-                            
-                            <p><time datetime="2016-06-15T05:31:53.000Z"><a href="/2016/06/14/Bilateral-Filter-for-Smoothing-Images/">2016-06-14</a></time></p>
-                        </div>
-                    
-                        
-                            </div><div class="row boxes">
-                            
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/06/12/design-twitter/">design twitter</a></h4>
-                            
-                            <p><time datetime="2016-06-13T02:21:07.000Z"><a href="/2016/06/12/design-twitter/">2016-06-12</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2016/06/07/intersection-of-two-arrays/">Intersection of Two Arrays</a></h4>
-                            
-                            <p><time datetime="2016-06-08T05:44:40.000Z"><a href="/2016/06/07/intersection-of-two-arrays/">2016-06-07</a></time></p>
-                        </div>
-                    
-                </div>
-            </div>    
+        <div class="row col-md-offset-2">
+            <div class="col-md-8">
+    			<span class="post-meta">
+      <time datetime="2016-07-01T07:58:07.000Z" itemprop="datePublished">
+          2016-07-01
+      </time>
+    
+</span>
+                <h1>Valid Perfect Square</h1>
+            </div>
         </div>
-    </div>
-</section> 
+        <div class="col-md-8 col-md-offset-2">
+      		<p>Problem Description</p>
+<blockquote>
+<p>Given a positive integer num, write a function which returns True if num is a perfect square else False.</p>
+<p>Note: Do not use any built-in library function such as sqrt.</p>
+<p>Example 1:</p>
+<p>Input: 16<br>Returns: True</p>
+<p>Example 2:</p>
+<p>Input: 14<br>Returns: False</p>
+</blockquote>
+<p>My Code</p>
+<p><pre><code><br>class Solution(object):<br>    def isPerfectSquare(self, num):<br>        “””<br>        :type num: int<br>        :rtype: bool<br>        “””</code></pre></p>
+<pre><code>if num == 1:
+    return True
 
-<section id="statement">
-    <div class="container text-center wow fadeInUp" data-wow-delay="0.5s">
-        <div class="row">
-            <p>enjoy 2016</p>
+low = 1
+high = num
+
+
+while(low &lt; high - 1 ):
+    mid = (low + high)/2
+    midSquare = mid * mid
+
+    if midSquare == num:
+        return True
+
+    if midSquare &gt; num:
+        high = mid
+    else:
+        low = mid
+
+return False
+</code></pre><p> </p>
+<p>Binary search problem. How to combine num = 1 into  while loop?       </p>
+
+            <div class="clearfix"></div>
+            <hr class="nogutter">
         </div>
+        <nav class="pagination" role="pagination">
+    
+    
+    <a class="pull-right" href="/2016/06/20/matlab-gui/">
+        matlab gui →
+    </a>
+    
+</nav>
+
+        <div class="duoshuo">
+<div class="ds-thread" data-thread-key="2016/07/01/Valid-Perfect-Square/" data-title="Valid Perfect Square" data-url="http://yoursite.com/2016/07/01/Valid-Perfect-Square/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"yihu1993"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+
+</div>
     </div>
 </section>
+
+
       
 <!-- ============================ Footer =========================== -->
 

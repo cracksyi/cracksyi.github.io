@@ -31,7 +31,7 @@ var _hmt = _hmt || [];
 
 
 <head>
-  <title>test chinese | Yi Hu&#39;s blog</title>
+  <title>skin detection based on YCbCr color space | Yi Hu&#39;s blog</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -229,16 +229,83 @@ var _hmt = _hmt || [];
         <div class="row col-md-offset-2">
             <div class="col-md-8">
     			<span class="post-meta">
-      <time datetime="2016-07-04T09:28:21.000Z" itemprop="datePublished">
-          2016-07-04
+      <time datetime="2016-07-07T03:00:26.000Z" itemprop="datePublished">
+          2016-07-06
       </time>
     
 </span>
-                <h1>test chinese</h1>
+                <h1>skin detection based on YCbCr color space</h1>
             </div>
         </div>
         <div class="col-md-8 col-md-offset-2">
-      		
+      		<p>Since android face detection api cannot satisfy the requirement of pratical use, I decide to study it by myself. One of direct ways to solve it is from the aspect of skin. </p>
+<p>I read some materials and found that YCbCr color space is a good choice. It can be transformed from RGB color space by linear transformation. An easy way is to see whether Cb and Cr is in a certain range. Experiment result shows the range for Cb is 100~120, and that of Cr is 140~170. Since Skin color in Cb and Cr is normally distributed, a more scientific way is to model it by two-dimensional Gaussian Distribution and get probability of each pixel, then set a threshold value to binarize the image. I bypass a step to collect skin color distribution and just use other’s experiment result of mean and covirance matrix S. In most case, it works. There are some experiment examples.</p>
+<p>There’s an important problem: illumilation compensation. In my view, it means darken the bright area and brighten the dark area. In YCbCr color space, Y means illumiation, so I calculate the average Y_AVE in the image, for each pixel, get a factor y/Y_AVE and use sigmoid function to get new factor. Use this factor to multiply by r/g/b to darken or brighten the pixel. The reason why I choose sigmoid function is that it is an increasing function and it can let the factor near to 1, because it increase or decrease very slowly. Of course, I do some transformation and adjust constant to make the picture more natural. </p>
+<pre><code>    double y = 0;
+
+for (int row = 0; row &lt; width; ++row){
+    for (int col = 0; col &lt; height; ++col){
+        pixel = src.getPixel(row, col);    
+
+        y += 0.257*((pixel&gt;&gt;16)&amp;0xff) + 0.564*((pixel&gt;&gt;8)&amp;0xff) + 0.098*(pixel &amp; 0xff) + 16;
+
+    }
+}
+
+int wh = width * height;
+y /= wh;
+
+
+double lowThreshold = 50.0;
+double highThreshold = 200.0;
+if(y &lt; lowThreshold){
+    y = lowThreshold;
+}
+if(y &gt; highThreshold){
+    y = highThreshold;
+}
+
+
+for (int row = 0; row &lt; width; ++row){
+    for (int col = 0; col &lt; height; ++col){
+        pixel = src.getPixel(row, col);    
+
+        int r = (pixel &gt;&gt; 16) &amp; 0xff;  
+        int g = (pixel &gt;&gt; 8) &amp; 0xff;  
+        int b = pixel &amp; 0xff;
+
+        double y_temp = 0.257*r+0.564*g+0.098*b+16;
+
+
+        double factor;
+        if(y_temp != 0){
+            factor = y/y_temp;
+        }else{
+            factor = 1; 
+        }
+
+
+        //brighten it
+        if(factor &gt; 1){ 
+            factor = 1 / (1 + Math.pow(Math.E,(-0.7)*(factor - 1))) + 0.5;
+        }
+
+        //darken it
+        if(factor &lt; 1){
+            factor = 1 / (1 + Math.pow(Math.E,(-0.5)*(factor - 1))) + 0.5;
+        }
+
+
+        r = Tools.clamp((int)(r*factor));
+        g = Tools.clamp((int)(g*factor));
+        b = Tools.clamp((int)(b*factor));
+
+        bmp.setPixel(row,col,Color.rgb(r, g, b));
+
+    }
+}
+</code></pre><p>Result shows bright area is no longer that bright, at the same time the whole image looks natural.</p>
+
             <div class="clearfix"></div>
             <hr class="nogutter">
         </div>
@@ -252,7 +319,7 @@ var _hmt = _hmt || [];
 </nav>
 
         <div class="duoshuo">
-<div class="ds-thread" data-thread-key="2016/07/04/test-chinese/" data-title="test chinese" data-url="http://yoursite.com/2016/07/04/test-chinese/"></div>
+<div class="ds-thread" data-thread-key="2016/07/06/skin-detection-based-on-YCbCr-color-space/" data-title="skin detection based on YCbCr color space" data-url="http://yoursite.com/2016/07/06/skin-detection-based-on-YCbCr-color-space/"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"yihu1993"};
 (function() {

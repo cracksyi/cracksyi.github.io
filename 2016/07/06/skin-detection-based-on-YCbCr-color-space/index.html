@@ -239,8 +239,8 @@ var _hmt = _hmt || [];
         </div>
         <div class="col-md-8 col-md-offset-2">
       		<p>Since android face detection api cannot satisfy the requirement of pratical use, I decide to study it by myself. One of direct ways to solve it is from the aspect of skin. </p>
-<p>I read some materials and found that YCbCr color space is a good choice. It can be transformed from RGB color space by linear transformation. An easy way is to see whether Cb and Cr is in a certain range. Experiment result shows the range for Cb is 100~120, and that of Cr is 140~170. Since Skin color in Cb and Cr is normally distributed, a more scientific way is to model it by two-dimensional Gaussian Distribution and get probability of each pixel, then set a threshold value to binarize the image. I bypass a step to collect skin color distribution and just use other’s experiment result of mean and covirance matrix S. In most case, it works. There are some experiment examples.</p>
-<p>There’s an important problem: illumilation compensation. In my view, it means darken the bright area and brighten the dark area. In YCbCr color space, Y means illumiation, so I calculate the average Y_AVE in the image, for each pixel, get a factor y/Y_AVE and use sigmoid function to get new factor. Use this factor to multiply by r/g/b to darken or brighten the pixel. The reason why I choose sigmoid function is that it is an increasing function and it can let the factor near to 1, because it increase or decrease very slowly. Of course, I do some transformation and adjust constant to make the picture more natural. </p>
+<p>I read some materials and found that YCbCr color space is a good choice. It can be transformed from RGB color space by linear transformation. An easy way is to see whether Cb and Cr is in a certain range. Experiment result shows the range for Cb is 100~120, and that of Cr is 140~170. Since Skin color in Cb and Cr is normally distributed, a more scientific way is to model it by two-dimensional Gaussian Distribution and get probability of each pixel, then set a threshold value to binarize the image. I bypass a step to collect skin color distribution and just use other’s experiment result of mean and covirance matrix S. In most case, it works.</p>
+<p>There’s an important problem: illumilation compensation. In my view, it means darken the bright area and brighten the dark area. In YCbCr color space, Y means illumiation, so I calculate the average Y_AVE in the image, for each pixel, get a factor y/Y_AVE and use sigmoid function to get new factor. Use this factor to multiply by r and g and b to darken or brighten the pixel. The reason why I choose sigmoid function is that it is an increasing function and it can let the factor near to 1, because it increases or decreases very slowly. Of course, I do some transformation and adjust constant to make the picture more natural. </p>
 <pre><code>    double y = 0;
 
 for (int row = 0; row &lt; width; ++row){
@@ -256,17 +256,14 @@ int wh = width * height;
 y /= wh;
 
 
-double lowThreshold = 50.0;
-double highThreshold = 200.0;
-if(y &lt; lowThreshold){
-    y = lowThreshold;
-}
-if(y &gt; highThreshold){
-    y = highThreshold;
+//if the whole picture is too dim or bright
+f(y &lt; 70){
+    y = y/2 + 50;
+}else if(y &gt; 130){
+    y = y/5 + 100;
 }
 
-
-for (int row = 0; row &lt; width; ++row){
+    for (int row = 0; row &lt; width; ++row){
     for (int col = 0; col &lt; height; ++col){
         pixel = src.getPixel(row, col);    
 
@@ -304,7 +301,9 @@ for (int row = 0; row &lt; width; ++row){
 
     }
 }
-</code></pre><p>Result shows bright area is no longer that bright, at the same time the whole image looks natural.</p>
+</code></pre><p>Through this step, the picture will be soft. For example,<br><img src="/pics/bright.png" alt=""><br>the bright area is not that bright now. If the picture is dark, it will be brighter, especially for darker area.<br><img src="/pics/dark.png" alt=""></p>
+<p>Then I utilize the threshold and probability calculated by two-dimensional Gaussian function to get binary image. In common case, it makes good result.<br><img src="/pics/skin_1.png" alt=""><br><img src="/pics/skin_2.png" alt=""><br>But the skin sometimes mix up with blond hair, or something similar.<br><img src="/pics/skin_1.png" alt=""><br><img src="/pics/skin_2.png" alt=""> </p>
+<p>I guess the mean value and covariance matrix of Cb and Cr are not optimal. But I will leave it alone. </p>
 
             <div class="clearfix"></div>
             <hr class="nogutter">
